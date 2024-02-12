@@ -10,7 +10,7 @@
 #define OPSE 4
 void error_handling(const char *message);
 void suc_handling(const char *message);
-int calculate(int opnum,int opnds[],char oprator);
+int calculate(int opnum,int opnds[],char op);
 
 int main(int argc,char *argv[])
 {
@@ -77,41 +77,9 @@ void suc_handling(const char *message){
     fputc('\n',stderr);
 }
 
-void compute(int *arr,int n,char Operator){
-
-    if(Operator=='*'){
-        end=1;
-        for(int i=0;i<n;i++){
-            end*=arr[i];
-        }
-    }
-    else if(Operator=='/'){
-        end=arr[0];
-        for(int i=1;i<n;i++){
-            end/=arr[i];
-        }
-    }
-    else if(Operator=='+'){
-        end=0;
-        for(int i=0;i<n;i++){
-            end+=arr[i];
-        }
-    }
-    else if(Operator=='-'){
-        end=arr[0];
-        for(int i=1;i<n;i++){
-            end-=arr[i];
-        }
-    }
-    else{
-        error_handling("error to Operator");
-    }
-    return ;
-}
 
 
-
-int calculate(int opnum,int opnds[],char oprator){
+int calculate(int opnum,int opnds[],char op){
     int result=opnds[0],i;
     switch(op){
         case '+':
