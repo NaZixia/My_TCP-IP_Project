@@ -17,8 +17,8 @@ int main(int argc,char *argv[])
 
     int32_t num; //用于接收传输字符的数量
 
-    if(argc!=3){
-        printf("Usage:%s<IP> <port>\n",argv[0]);
+    if(argc!=2){
+        printf("Usage:%s <port>\n",argv[0]);
         exit(1);
     }
 
@@ -29,25 +29,19 @@ int main(int argc,char *argv[])
 
     memset(&serv_addr,0,sizeof(serv_addr));
     serv_addr.sin_family=AF_INET;
-    serv_addr.sin_addr.s_addr=inet_addr(argv[1]);
-    serv_addr.sin_port=htons(atoi(argv[2]));
+    serv_addr.sin_addr.s_addr=inet_addr("127.0.0.1");
+    serv_addr.sin_port=htons(atoi(argv[1]));
 
     if(connect(sock,(struct sockaddr*)&serv_addr,sizeof(serv_addr))==-1)
         error_handling("connect() error!");
 
     fputs("scanf string len:",stdout);
-    scanf("%d",&num);
-    fgetc(stdin);
-    message[0] = (num >> 0) & 0xFF; // 最低有效字节
-    message[1] = (num >> 8) & 0xFF;
-    message[2] = (num >> 16) & 0xFF;
-    message[3] = (num >> 24) & 0xFF; // 最高有效字节
+    scanf("%d",(int*)&message[0]);
     
     fputs("scanf string data:",stdout);
-    fgets(&message[4],BUFF_SIZE-4,stdin);
-    fgetc(stdin);
+    scanf("%s",&message[4]);
 
-    write(sock,message,4+num);
+    write(sock,message,8);
     str_len=read(sock,message,BUFF_SIZE-1);
     message[str_len]=0;
 

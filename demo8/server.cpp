@@ -46,9 +46,6 @@ int main(int argc,char *argv[])
 
     read_len=read(clnt_sock,message,BUFF_SIZE-1);
     message[read_len]=0;
-    fputs(message,stdout);
-    fputc('\n',stdout);
-    
 
     write(clnt_sock,message,read_len);
 
