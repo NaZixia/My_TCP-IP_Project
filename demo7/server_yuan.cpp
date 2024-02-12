@@ -53,27 +53,12 @@ int main(int argc,char *argv[])
         read(clnt_sock,&opnd_cnt,1);
 
         recv_len=0;
-        if(str_len==-1)
-            error_handling("error read");
-            
-        int nub=atoi(message);
-        for(i=0;i<nub;i++){
-            str_len=read(clnt_sock,message,BUF_SIZE);
-            if(str_len==-1)
-                error_handling("error read");
-            number[i]=atoi(message);
+        while((opnd_cnt*OPSE+1)>recv_len){
+            recv_cnt=read(clnt_sock,&opinfo[recv_len],BUF_SIZE-1);
+            recv_len+=recv_cnt;
         }
-        str_len=read(clnt_sock,message,BUF_SIZE);
-        if(str_len==-1)
-            error_handling("error read");
-        Operator=message[0];
-
-        compute(number,nub,Operator);
-        //memcpy(message,0,sizeof(message));
-        message[0]=end;
-        printf("nub= %lld",end);
-        write(clnt_sock,message,str_len);   //back call
-
+        result=calculate(opnd_cnt,(int *)opinfo,opinfo[recv_len-1]);
+        write(clnt_sock,(char *)&result,sizeof(result));   //back call
         close(clnt_sock);
     }
     close(serv_sock);
