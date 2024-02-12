@@ -17,6 +17,7 @@ int main(int argc,char *argv[])
     socklen_t clnt_addr_size;
     char message[BUFF_SIZE];
     char str_len[5];
+    int read_len;
 
     if(argc!=2){
         printf("Usage:%s<port>\n",argv[0]);
@@ -43,10 +44,11 @@ int main(int argc,char *argv[])
     if(clnt_sock==-1)
         error_handling("accept() error");
 
-    read(clnt_sock,message,BUFF_SIZE-1);
-    fputs(message,stderr);
-    fputc('\n',stderr);
-
+    read_len=read(clnt_sock,message,BUFF_SIZE-1);
+    message[read_len]=0;
+    fputs(message,stdout);
+    fputc('\n',stdout);
+    
 
     write(clnt_sock,message,BUFF_SIZE);
 
