@@ -37,17 +37,18 @@ int main(int argc,char *argv[])
 
     fputs("scanf string len:",stdout);
     scanf("%d",&num);
+    fgetc(stdin);
     message[0] = (num >> 0) & 0xFF; // 最低有效字节
     message[1] = (num >> 8) & 0xFF;
     message[2] = (num >> 16) & 0xFF;
     message[3] = (num >> 24) & 0xFF; // 最高有效字节
     
-    fgetc(stdin);
     fputs("scanf string data:",stdout);
     fgets(&message[4],BUFF_SIZE-4,stdin);
+    fgetc(stdin);
 
-    write(sock,message,sizeof(message));
-    str_len=read(sock,message,sizeof(message)-1);
+    write(sock,message,4+num);
+    str_len=read(sock,message,BUFF_SIZE-1);
     message[str_len]=0;
 
     printf("Message from server :%s \n",message);

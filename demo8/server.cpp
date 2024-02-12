@@ -50,7 +50,7 @@ int main(int argc,char *argv[])
     fputc('\n',stdout);
     
 
-    write(clnt_sock,message,BUFF_SIZE);
+    write(clnt_sock,message,read_len);
 
     close(clnt_sock);
     close(serv_sock);
