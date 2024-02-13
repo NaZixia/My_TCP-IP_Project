@@ -1,0 +1,6 @@
+--2024-02-13 10:26:24--  http://google.com/
+Connecting to 192.168.119.241:7890... failed: Connection timed out.
+Retrying.
+
+--2024-02-13 10:28:38--  (try: 2)  http://google.com/
+Connecting to 192.168.119.241:7890... 
