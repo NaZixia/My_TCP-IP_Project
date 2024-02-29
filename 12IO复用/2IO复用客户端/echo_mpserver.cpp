@@ -56,11 +56,9 @@ int main(int argc,char *argv[])
 
         if((fd_num=select(fd_max+1,&cpy_reads,0,0,&timeout))==-1)
             break;
-        printf("5s...\n");
-        return 1;
         if(fd_num==0)
             continue;
-
+        fd_num=0;
         for(i=0;i<fd_max+1;i++){
             if(FD_ISSET(i,&cpy_reads))
             { 
@@ -72,7 +70,7 @@ int main(int argc,char *argv[])
                     if(fd_max<clnt_sock)
                         fd_max=clnt_sock;
                     int dd=clnt_sock;
-                    //printf("connect %d client\n",dd);
+                    printf("connect %d client\n",dd);
                 }
                 else
                 {
