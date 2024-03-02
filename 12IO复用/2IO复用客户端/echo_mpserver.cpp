@@ -59,7 +59,7 @@ int main(int argc,char *argv[])
         if(fd_num==0)
             continue;
         fd_num=0;
-        for(i=0;i<fd_max+1;i++){
+        for(i=3;i<fd_max+1;i++){
             if(FD_ISSET(i,&cpy_reads))
             { 
                 if(i==serv_sock)
@@ -69,8 +69,7 @@ int main(int argc,char *argv[])
                     FD_SET(clnt_sock,&reads);
                     if(fd_max<clnt_sock)
                         fd_max=clnt_sock;
-                    int dd=clnt_sock;
-                    printf("connect %d client\n",dd);
+                    printf("connect %d client\n",clnt_sock);
                 }
                 else
                 {
