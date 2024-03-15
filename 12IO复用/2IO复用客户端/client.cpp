@@ -40,19 +40,14 @@ int main(int argc,char *argv[])
 
     while(1){
         fputs("print q to quit\n",stdout);
-        fgets(message,sizeof(message),stdin);
+        fgets(message,BUF_SIZE,stdin);
 
         if(!strcmp(message,"q\n")||!strcmp(message,"Q\n"))
             break;
 
-        
-        str_len=write(sock,message,strlen(message));
-        
-        recv_len=0;
-        while(recv_len<str_len){
-            recv_cnt=read(sock,&message[recv_len],BUF_SIZE-1);
-            recv_len+=recv_cnt;
-        }
+        str_len=write(sock,message,BUF_SIZE);
+
+        recv_len=read(sock,message,BUF_SIZE);
         message[str_len]=0;
         printf("Message from server :%s \n",message);
     }

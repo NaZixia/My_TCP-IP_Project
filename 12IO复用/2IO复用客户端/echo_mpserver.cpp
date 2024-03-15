@@ -7,7 +7,7 @@
 #include <sys/time.h>
 #include <sys/select.h>
 
-#define BUF_SIZE 100
+#define BUF_SIZE 1024
 void error_handling(const char *message);
 void suc_handling(const char *message);
 
@@ -34,6 +34,10 @@ int main(int argc,char *argv[])
     }
 
     serv_sock=socket(PF_INET,SOCK_STREAM,0);
+    int seteeee=1;
+    setsockopt(serv_sock,SOL_SOCKET,SO_REUSEADDR,
+    (void*)&seteeee,sizeof(seteeee));
+
     memset(&serv_addr,0,sizeof(serv_addr));
     serv_addr.sin_family=AF_INET;
     serv_addr.sin_addr.s_addr=htonl(INADDR_ANY);
@@ -58,10 +62,11 @@ int main(int argc,char *argv[])
             break;
         if(fd_num==0)
             continue;
-        fd_num=0;
-        for(i=3;i<fd_max+1;i++){
+
+        int m_fdmax=fd_max;
+        for(i=0;i<m_fdmax+1;i++){
             if(FD_ISSET(i,&cpy_reads))
-            { 
+            {
                 if(i==serv_sock)
                 {
                     clnt_adr_sz=sizeof(clnt_addr);
@@ -69,7 +74,7 @@ int main(int argc,char *argv[])
                     FD_SET(clnt_sock,&reads);
                     if(fd_max<clnt_sock)
                         fd_max=clnt_sock;
-                    printf("connect %d client\n",clnt_sock);
+                   printf("connect  client%d\n",clnt_sock);
                 }
                 else
                 {
@@ -80,13 +85,11 @@ int main(int argc,char *argv[])
                         printf("close clien %d\n",i);
                     }
                     else{
-                        write(i,message,str_len);
+                        write(i,message,BUF_SIZE);
                     }
                 }
             }
         }
-        close(serv_sock);
-        return 0;
     }
     
     close(serv_sock);
