@@ -51,7 +51,7 @@ int main(int argc,char *argv[])
     }
 
     memset(message,0,BUFF_SIZE);
-    if((str_len=read(sock,message,BUFF_SIZE-1))!=0)
+    if((str_len=read(sock,message,BUFF_SIZE))!=0)
         fwrite(message, sizeof(char), str_len, fp);
  
     puts("recvived file data");
